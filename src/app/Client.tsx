@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { use } from "react";
 
 type Props = {
@@ -15,7 +16,6 @@ type Props = {
   iter_map: Map<any, any>;
   iter_set: Set<any>;
   iter_typed_array: Int8Array;
-  iter_array_buffer: ArrayBuffer;
   date: Date;
   object: { key1: string; key2: { key3: number; key4: boolean } };
   jsx: JSX.Element;
@@ -26,10 +26,15 @@ type Props = {
 export function Client(props: Props) {
   use(props.promise);
 
+  const router = useRouter();
+
   return (
     <section>
       <h1>Client</h1>
-      <p>Client content</p>
+      <button type="button" onClick={() => router.refresh()}>
+        Refresh
+      </button>
+      <p>{JSON.stringify(Object.keys(props))}</p>
     </section>
   );
 }

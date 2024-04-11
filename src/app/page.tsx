@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import { Client } from "./Client";
 
+export const revalidate = 0;
+
 async function serverAction() {
   "use server";
   await Promise.resolve();
@@ -33,13 +35,6 @@ export default function Page() {
           })()}
           iter_set={new Set(["set1", "set2", "set3"])}
           iter_typed_array={new Int8Array([1, 2, 3])}
-          iter_array_buffer={(() => {
-            const buffer = new ArrayBuffer(8);
-            const view = new Int32Array(buffer);
-            view[0] = 123;
-            view[1] = 456;
-            return buffer;
-          })()}
           date={new Date()}
           object={{ key1: "key1value", key2: { key3: 12344, key4: false } }}
           jsx={<span>JSX</span>}
