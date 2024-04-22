@@ -2,11 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { use } from "react";
+import { externalServerAction } from "./action";
 
 type Props = {
   string: string;
   number: number;
-  bigint: BigInt;
+  // bigint: BigInt;
   boolean: boolean;
   undefined: undefined;
   null: null;
@@ -28,13 +29,24 @@ export function Client(props: Props) {
 
   const router = useRouter();
 
+  const handleClick = async () => {
+    await externalServerAction();
+  };
   return (
     <section>
       <h1>Client</h1>
-      <button type="button" onClick={() => router.refresh()}>
-        Refresh
-      </button>
-      <p>{JSON.stringify(Object.keys(props))}</p>
+      <div>
+        <button type="button" onClick={handleClick}>
+          action
+        </button>
+      </div>
+
+      <hr />
+      <div>
+        <button type="button" onClick={() => router.refresh()}>
+          Refresh
+        </button>
+      </div>
     </section>
   );
 }

@@ -3,23 +3,36 @@ import { Client } from "./Client";
 
 export const revalidate = 0;
 
-async function serverAction() {
+async function propServerAction() {
   "use server";
+  console.log("called propServerAction");
   await Promise.resolve();
 }
 
 export default function Page() {
-  const promise = new Promise((resolve) => setTimeout(resolve, 1000));
+  async function serverAction() {
+    "use server";
+    console.log("called serverAction");
+    await Promise.resolve();
+  }
+  const promise = new Promise((resolve) =>
+    setTimeout(() => {
+      resolve("RESOLVED!!");
+    }, 1000)
+  );
 
   return (
     <main>
       <h1>Page</h1>
 
       <Suspense>
+        <form action={serverAction}>
+          <button type="submit">Submit</button>
+        </form>
         <Client
           string="abc"
           number={123}
-          bigint={BigInt(9999999999999999999)}
+          // bigint={BigInt(9999999999999999999)}
           boolean={true}
           undefined={undefined}
           null={null}
@@ -38,7 +51,7 @@ export default function Page() {
           date={new Date()}
           object={{ key1: "key1value", key2: { key3: 12344, key4: false } }}
           jsx={<span>JSX</span>}
-          action={serverAction}
+          action={propServerAction}
           promise={promise}
         />
       </Suspense>
